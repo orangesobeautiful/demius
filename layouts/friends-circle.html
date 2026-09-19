@@ -64,7 +64,7 @@
 {{ $cardCustomColor := $config.cardCustomColor | default "#f5f5f5" }}
 {{ $tabColorMode := $config.tabColorMode | default "default" }}
 {{ $tabCustomColor := $config.tabCustomColor | default "#667eea" }}
-{{ $linksData := .Site.Data.links }}
+{{ $linksData := hugo.Data.links }}
 <script type="application/json" id="friends-circle-config">
 {
   "preGeneratedJsonUrl": {{ if $config.preGeneratedJsonUrl }}{{ $config.preGeneratedJsonUrl | jsonify }}{{ else }}""{{ end }},
@@ -83,4 +83,3 @@
 </script>
 
 {{ end }}
-

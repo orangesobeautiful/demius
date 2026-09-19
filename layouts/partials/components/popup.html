@@ -2,7 +2,7 @@
 {{ $popupConfig := .Site.Params.popup }}
 {{ if and $popupConfig $popupConfig.enable }}
   {{/* 从 data/popup.yaml 读取弹窗配置 */}}
-  {{ $popupData := index site.Data "popup" }}
+  {{ $popupData := index hugo.Data "popup" }}
   {{ if $popupData }}
     {{ range $popupData }}
       {{ if .enable }}
@@ -105,4 +105,3 @@
     {{ end }}
   {{ end }}
 {{ end }}
-

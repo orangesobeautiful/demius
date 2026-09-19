@@ -2,7 +2,7 @@
 {{ $carouselConfig := .Site.Params.carousel }}
 {{ if and $carouselConfig $carouselConfig.enable }}
   {{/* 从 data/carousel.yaml 读取轮播项配置 */}}
-  {{ $carouselData := index site.Data "carousel" }}
+  {{ $carouselData := index hugo.Data "carousel" }}
   {{ $carouselItems := $carouselData.items | default $carouselConfig.items | default slice }}
   
   {{ $showOnPages := $carouselConfig.showOnPages }}
@@ -123,4 +123,3 @@
   </div>
   {{ end }}
 {{ end }}
-

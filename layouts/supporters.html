@@ -9,7 +9,7 @@
     {{ end }}
   </header>
 
-  {{ $supportersData := .Site.Data.supporters }}
+  {{ $supportersData := hugo.Data.supporters }}
   
   {{ if $supportersData }}
     <!-- 统计信息 -->
@@ -102,4 +102,3 @@
   {{ end }}
 </div>
 {{ end }}
-

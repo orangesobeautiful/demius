@@ -5,10 +5,10 @@
     <p class="gallery-description">记录生活中的美好瞬间</p>
   </header>
 
-  {{ if .Site.Data.gallery }}
+  {{ if hugo.Data.gallery }}
   <!-- 相册封面列表视图 -->
   <div class="gallery-albums-view" id="gallery-albums-view">
-    {{ $galleryData := .Site.Data.gallery }}
+    {{ $galleryData := hugo.Data.gallery }}
     
     {{/* 分类相册：精选和普通 */}}
     {{ $featuredGroups := slice }}
@@ -148,7 +148,6 @@
 
 <!-- 相册数据（供JS使用） -->
 <script id="gallery-data" type="application/json">
-{{- .Site.Data.gallery | jsonify | safeJS -}}
+{{- hugo.Data.gallery | jsonify | safeJS -}}
 </script>
 {{ end }}
-

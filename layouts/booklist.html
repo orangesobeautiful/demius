@@ -9,8 +9,8 @@
   <div class="booklist-container">
     <!-- 书单分组区域 -->
     <div class="booklist-groups">
-      {{ if .Site.Data.booklist }}
-        {{ $booklistData := .Site.Data.booklist }}
+      {{ if hugo.Data.booklist }}
+        {{ $booklistData := hugo.Data.booklist }}
         {{ range $booklistData.groups }}
         <div class="booklist-group">
           <h2 class="group-title">{{ .name }}</h2>
@@ -85,4 +85,3 @@
   {{ partial "comment.html" . }}
 </div>
 {{ end }}
-

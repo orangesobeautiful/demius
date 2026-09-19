@@ -9,7 +9,7 @@
     {{ end }}
   </div>
 
-  {{ $wishlistData := .Site.Data.wishlist }}
+  {{ $wishlistData := hugo.Data.wishlist }}
   
   {{ if $wishlistData }}
     {{ range $wishlistData.categories }}
@@ -97,4 +97,3 @@
   {{ end }}
 </div>
 {{ end }}
-

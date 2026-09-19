@@ -9,8 +9,8 @@
   <div class="links-container">
     <!-- 友链分组区域 -->
     <div class="links-groups">
-      {{ if .Site.Data.links }}
-        {{ $linksData := .Site.Data.links }}
+      {{ if hugo.Data.links }}
+        {{ $linksData := hugo.Data.links }}
         {{ range $linksData.groups }}
         <div class="links-group">
           <h2 class="group-title">{{ .name }}</h2>

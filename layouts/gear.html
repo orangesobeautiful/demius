@@ -12,8 +12,8 @@
   <div class="gear-container">
     <!-- 装备分组区域 -->
     <div class="gear-groups">
-      {{ if .Site.Data.gear }}
-        {{ $gearData := .Site.Data.gear }}
+      {{ if hugo.Data.gear }}
+        {{ $gearData := hugo.Data.gear }}
         {{ range $groupIndex, $group := $gearData.groups }}
         <div class="gear-group">
           <div class="group-header">
@@ -70,4 +70,3 @@
   {{ partial "comment.html" . }}
 </div>
 {{ end }}
-

@@ -7,7 +7,7 @@
 
   <div class="planet-content">
     {{/* 渲染 data/music-planet.yaml */}}
-    {{ $data := index site.Data "music-planet" }}
+    {{ $data := index hugo.Data "music-planet" }}
     {{ if and $data $data.sections }}
     <div class="planet-grid">
       {{ range $sec := $data.sections }}
@@ -34,5 +34,4 @@
   
 </article>
 {{ end }}
-
 
