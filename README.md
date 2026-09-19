@@ -1,5 +1,9 @@
 # Demius Hugo Theme
 
+> 此專案 Fork 自 [demius782/demius](https://github.com/demius782/demius)。
+>
+> 這是自行維護的版本，包含相容性修正與依使用偏好進行的自訂調整。
+
 三栏瀑布流 + 数据组件 + PJAX 的现代化 Hugo 主题。Demius 为想要在同一站点中展示 **博客文章、动态说说、数据面板、相册、音乐/追番/愿望清单** 的玩家准备了完善的配置模板与短代码集合。
 
 - 💻 演示站点：[blog.demius.tech](https://blog.demius.tech)
