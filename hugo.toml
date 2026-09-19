@@ -4,7 +4,7 @@
 
 # ===== 站点基础配置 =====
 baseURL = 'https://example.com'          # 网站基础URL，生产环境需改为实际域名
-languageCode = 'zh-CN'                     # 网站语言代码
+locale = 'zh-CN'                           # 网站语言代码
 title = 'Demius Theme'                         # 网站标题
 theme = 'demius'                           
 
@@ -1170,4 +1170,3 @@ hasCJKLanguage = true                      # 启用中日韩语言支持，优�
     # "https://zhihu\\.com/.*",             # 知乎链接示例
     # "https://.*\\.github\\.io/.*"         # GitHub Pages示例
   ]
-
