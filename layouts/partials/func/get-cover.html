@@ -1,25 +1,87 @@
 {{/*
-  解析文章封面圖片路徑，回傳絕對路徑（例如 /posts/test/cover.png）。
-  - 若封面已是絕對路徑（/...）或外部網址，直接回傳
-  - 否則嘗試從 page bundle 資源取得 .RelPermalink
-  - 最後兜底：視為相對於文章頁面的路徑
-  用法：{{ partial "func/get-cover.html" . }}
+  解析文章封面圖片，回傳處理過的絕對路徑（包含 webp 與尺寸優化）。
+  - 接受 dict 參數：{"page": <page>, "cover": <optional override>, "size": "card|hero|thumb|carousel"}
+  - 若 cover 是絕對路徑（/...）或外部網址（http...），直接回傳
+  - 否則依序嘗試：page bundle 資源 → assets/images/posts/ 資源
+  - 找到資源後用 .Fit 處理成指定尺寸並轉 webp
+  - 找不到則回傳預設封面（也會嘗試處理）
+
+  size 預設（依 CSS 容器寬度 × 2 retina 估算）：
+    card:     600 x 400   — 首頁文章卡片（3 欄瀑布流，~270x200 顯示）
+    hero:     1600 x 900  — 文章頁 hero（16:9，~812x457 顯示）
+    thumb:    128 x 72    — 側欄縮圖（~64x36 顯示）
+    carousel: 1720 x 400  — 輪播圖（~860x200 顯示）
+
+  用法：
+    {{ partial "func/get-cover.html" (dict "page" . "size" "card") }}
+    {{ partial "func/get-cover.html" (dict "page" . "cover" "custom.png" "size" "hero") }}
 */}}
 
+{{ $page := .page }}
+{{ $size := .size | default "card" }}
+{{ $coverOverride := .cover | default "" }}
+{{ $cover := $coverOverride | default $page.Params.cover | default "" }}
+
 {{ $defaultCover := site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
-{{ $cover := .Params.cover | default "" }}
-{{ $result := $defaultCover }}
+
+{{ $sizeMap := dict
+  "card"     "600x400"
+  "hero"     "1600x900"
+  "thumb"    "128x72"
+  "carousel" "1720x400"
+}}
+{{ $fitSpec := index $sizeMap $size | default "600x400 webp q85" }}
+
+{{/* 嘗試載入資源並處理；若不是可處理資源則 fallback 到字串路徑 */}}
+{{ $result := "" }}
+{{ $resource := false }}
 
 {{ with $cover }}
   {{ $coverValue := . }}
+
+  {{/* 絕對路徑或外部網址：直接使用，不處理 */}}
   {{ if or (hasPrefix $coverValue "/") (hasPrefix $coverValue "http") }}
     {{ $result = $coverValue }}
   {{ else }}
-    {{ with $.Resources.GetMatch $coverValue }}
-      {{ $result = .RelPermalink }}
-    {{ else }}
-      {{ $result = printf "%s%s" $.RelPermalink $coverValue }}
+    {{/* 優先 1：page bundle 資源 */}}
+    {{ with $page.Resources.GetMatch $coverValue }}
+      {{ $resource = . }}
     {{ end }}
+
+    {{/* 優先 2：assets/images/posts/ 下的資源 */}}
+    {{ if not $resource }}
+      {{ with resources.Get (printf "images/posts/%s" $coverValue) }}
+        {{ $resource = . }}
+      {{ end }}
+    {{ end }}
+
+    {{ if $resource }}
+      {{ $processed := $resource.Fit (printf "%s webp q85" $fitSpec) }}
+      {{ $result = $processed.RelPermalink }}
+    {{ else }}
+      {{/* 兜底：視為相對於文章頁面的路徑（不處理） */}}
+      {{ $result = printf "%s%s" $page.RelPermalink $coverValue }}
+    {{ end }}
+  {{ end }}
+{{ else }}
+  {{/* 沒有 cover 時，嘗試處理預設封面 */}}
+  {{ $defaultResource := false }}
+  {{ if hasPrefix $defaultCover "/" }}
+    {{ $defaultName := trim $defaultCover "/" }}
+    {{ with $page.Resources.GetMatch $defaultName }}
+      {{ $defaultResource = . }}
+    {{ end }}
+    {{ if not $defaultResource }}
+      {{ with resources.Get (printf "images/posts/%s" $defaultName) }}
+        {{ $defaultResource = . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ if $defaultResource }}
+    {{ $processed := $defaultResource.Fit (printf "%s webp q85" $fitSpec) }}
+    {{ $result = $processed.RelPermalink }}
+  {{ else }}
+    {{ $result = $defaultCover }}
   {{ end }}
 {{ end }}
 

@@ -1,6 +1,6 @@
 <article class="post-card{{ if .Params.pinned }} post-card-pinned{{ end }}">
   {{ $defaultCover := site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
-  {{ $cover := partial "func/get-cover.html" . }}
+  {{ $cover := partial "func/get-cover.html" (dict "page" . "size" "card") }}
 
   {{ if .Params.pinned }}
   <div class="post-pinned-badge">

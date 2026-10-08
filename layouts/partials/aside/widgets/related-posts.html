@@ -49,7 +49,7 @@
       {{ if $related }}
         {{ range $related }}
           {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-          {{ $cover := partial "func/get-cover.html" . }}
+          {{ $cover := partial "func/get-cover.html" (dict "page" . "size" "thumb") }}
           <a class="related-item" href="{{ .RelPermalink }}">
             <div class="related-thumb">
               <img src="{{ $cover }}"

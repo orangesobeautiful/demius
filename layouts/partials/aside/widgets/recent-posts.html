@@ -43,7 +43,7 @@
     <div class="aside-recent">
         {{ range first 5 (where .Site.RegularPages "Type" "posts") }}
             {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-            {{ $cover := partial "func/get-cover.html" . }}
+            {{ $cover := partial "func/get-cover.html" (dict "page" . "size" "thumb") }}
             <a class="recent-item" href="{{ .RelPermalink }}">
                 <div class="recent-thumb">
                     <img src="{{ $cover }}"

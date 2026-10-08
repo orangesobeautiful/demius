@@ -55,7 +55,7 @@
       {{ range first $popularCount $popularPosts.ByDate.Reverse }}
         <a class="popular-item" href="{{ .RelPermalink }}">
           {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-          {{ $cover := partial "func/get-cover.html" . }}
+          {{ $cover := partial "func/get-cover.html" (dict "page" . "size" "thumb") }}
           <div class="popular-thumb">
             <img src="{{ $cover }}"
                  alt="{{ .Title }}"

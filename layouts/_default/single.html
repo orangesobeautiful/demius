@@ -56,7 +56,7 @@
 
   {{ with .Params.cover }}
   <div class="post-cover">
-    <img class="post-bg" src="{{ partial "func/get-cover.html" $ }}" alt="cover" onerror="this.src='/img/404.jpg'">
+    <img class="post-bg" src="{{ partial "func/get-cover.html" (dict "page" $ "size" "hero") }}" alt="cover" onerror="this.src='/img/404.jpg'">
   </div>
   {{ end }}
 

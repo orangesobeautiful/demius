@@ -78,7 +78,7 @@
               {{ $post := index $posts 0 }}
               {{ if $post }}
               {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-              {{ $cover := partial "func/get-cover.html" $post }}
+              {{ $cover := partial "func/get-cover.html" (dict "page" $post "size" "thumb") }}
               <a class="series-post-item" href="{{ $post.RelPermalink }}">
                 <div class="series-post-number">{{ add $index 1 }}</div>
                 <div class="series-post-thumb">
