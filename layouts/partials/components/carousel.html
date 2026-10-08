@@ -67,6 +67,13 @@
             {{ end }}
           {{ else if eq $item.type "image" }}
             {{/* 图片类型轮播项 */}}
+            {{ $imageUrl := $item.image }}
+            {{ if and $item.image (not (or (hasPrefix $item.image "/") (hasPrefix $item.image "http"))) }}
+              {{ with resources.Get $item.image }}
+                {{ $processed := .Fit "1720x400 webp q85" }}
+                {{ $imageUrl = $processed.RelPermalink }}
+              {{ end }}
+            {{ end }}
             <div class="carousel-item carousel-item-image" data-index="{{ $index }}">
               {{ if $item.link }}
                 <a href="{{ $item.link }}" class="carousel-link">
@@ -74,7 +81,7 @@
                 <div class="carousel-link">
               {{ end }}
                   <div class="carousel-image carousel-image-full">
-                    <img src="{{ $item.image }}" alt="{{ $item.title }}" loading="lazy" onerror="this.src='/img/404.jpg'">
+                    <img src="{{ $imageUrl }}" alt="{{ $item.title }}" loading="lazy" onerror="this.src='/img/404.jpg'">
                   </div>
                   {{ if or $item.title $item.description }}
                   <div class="carousel-content carousel-content-overlay">
