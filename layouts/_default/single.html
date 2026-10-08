@@ -9,24 +9,24 @@
   <p><strong>目录长度：</strong>{{ len .TableOfContents }}</p>
 </div> -->
 
-<article class="post post-detail{{ if .Site.Params.postPageTransparentMode }} post-page-transparent{{ if eq .Site.Params.postPageTransparentType "full" }} post-page-transparent-full{{ end }}{{ end }}" 
+<article class="post post-detail{{ if .Site.Params.postPageTransparentMode }} post-page-transparent{{ if eq .Site.Params.postPageTransparentType "full" }} post-page-transparent-full{{ end }}{{ end }}"
   {{ if .Params.password }}data-password="{{ .Params.password | sha256 }}" data-slug="{{ .Params.slug }}" data-hint="{{ .Params.passwordHint }}"{{ end }}>
   <header class="post-header">
     <h1 class="post-title">{{ .Title }}</h1>
-    
+
     <div class="post-meta">
       <!-- 发布日期 -->
       <time class="meta-item post-date">
         <i class="far fa-calendar-alt"></i> {{ .Date.Format "2006年01月02日" }}
       </time>
-      
+
       <!-- 更新日期（如果有） -->
       {{ if ne .Lastmod .Date }}
       <time class="meta-item post-updated">
         <i class="fas fa-sync-alt"></i> {{ .Lastmod.Format "2006年01月02日" }}
       </time>
       {{ end }}
-      
+
       <!-- 分类（可点击跳转） -->
       {{ with .Params.categories }}
       <span class="post-cats">
@@ -36,41 +36,41 @@
         {{ end }}
       </span>
       {{ end }}
-      
+
       <!-- 字数统计 -->
       <span class="meta-item post-word-count">
         <i class="fas fa-file-word"></i> {{ partial "word-count.html" . }} 字
       </span>
-      
+
       <!-- 浏览量统计 -->
       <span class="meta-item post-view-count" data-page-url="{{ .RelPermalink }}">
         <i class="fas fa-eye"></i> <span class="view-count-number">--</span> 次浏览
       </span>
-      
+
       <!-- 阅读时长统计 -->
       <span class="meta-item post-reading-time" data-word-count="{{ partial "word-count.html" . }}">
         <i class="fas fa-clock"></i> <span class="reading-time-number">--</span> 分钟
       </span>
     </div>
   </header>
-  
+
   {{ with .Params.cover }}
   <div class="post-cover">
-    <img class="post-bg" src="{{ . }}" alt="cover" onerror="this.src='/img/404.jpg'">
+    <img class="post-bg" src="{{ partial "func/get-cover.html" $ }}" alt="cover" onerror="this.src='/img/404.jpg'">
   </div>
   {{ end }}
-  
+
   <!--文章部分-->
   <div class="post-content">
     <!-- 隐藏的目录，供 JavaScript 使用 -->
   <div id="TableOfContents" style="display: none;">
     {{ .TableOfContents }}
   </div>
-    
+
     <!-- 文章正文 -->
     {{ .Content }}
   </div>
-  
+
   <!-- 简化标签区域：直接显示标签，无标题和图标 -->
   {{ with .Params.tags }}
   <div class="post-tags-simple">
@@ -83,7 +83,7 @@
     <div class="tags-divider-bottom"></div>
   </div>
   {{ end }}
-  
+
   <!-- 文章互动区域：点赞 + 打赏 + 转发 -->
   <div class="post-actions-container">
     <!-- 点赞按钮 -->
@@ -96,7 +96,7 @@
       </button>
     </div>
     {{ end }}
-    
+
     <!-- 打赏按钮 -->
     {{ if .Site.Params.reward.enable }}
     <div class="post-action-item post-reward">
@@ -123,7 +123,7 @@
       </div>
     </div>
     {{ end }}
-    
+
     <!-- 转发按钮 -->
     {{ if .Site.Params.postActions.share.enable }}
     <div class="post-action-item post-share">
@@ -134,9 +134,9 @@
       <div class="share-panel" id="sharePanel">
         <div class="share-platforms">
           {{ range .Site.Params.postActions.share.platforms }}
-          <a href="javascript:void(0);" 
-             class="share-platform-item" 
-             data-platform="{{ .name }}" 
+          <a href="javascript:void(0);"
+             class="share-platform-item"
+             data-platform="{{ .name }}"
              data-url="{{ if .url }}{{ .url }}{{ end }}"
              style="--platform-color: {{ .color | default "#666666" }};">
             <i class="{{ .icon }}"></i>
@@ -148,13 +148,13 @@
     </div>
     {{ end }}
   </div>
-  
+
   <div class="post-copyright">
     <p><i class="fas fa-info-circle"></i> 文章作者：<strong><a href="{{ site.BaseURL }}" rel="noopener noreferrer">{{ site.Params.author }}</a></strong></p>
     <p><i class="fas fa-link"></i> 文章链接：
       <a href="{{ .RelPermalink }}">{{ strings.TrimSuffix "/" site.BaseURL }}{{ .RelPermalink }}</a>
     </p>
-    
+
     <!-- <script>
     /* 无引号冲突：href 保持编码，text 解码显示 */
     const encoded = '{{ .RelPermalink }}';
@@ -165,7 +165,7 @@
     </script> -->
     <p><i class="fas fa-copyright"></i> 版权声明: 本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <strong><a href="{{ site.BaseURL }}" rel="noopener noreferrer">{{ site.Params.author }}</a></strong></p>
   </div>
-  
+
   <nav class="post-pager">
     {{ with .PrevInSection }}<a class="pager-prev" href="{{ .RelPermalink }}">
       <span>← 上一篇</span><br>{{ .Title }}
@@ -175,5 +175,5 @@
     </a>{{ end }}
   </nav>
   {{ partial "comment.html" . }}  <!-- 评论系统 -->
- </article>
+</article>
 {{ end }}

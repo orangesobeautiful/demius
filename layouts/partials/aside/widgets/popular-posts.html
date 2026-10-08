@@ -11,7 +11,7 @@
 {{ $overlayColor := $popularConfig.overlayColor }}
 {{ $borderRadius := $popularConfig.borderRadius }}
 
- 
+
 
 <section class="aside-card popular-posts-card{{ if $enableBg }} popular-posts-card-with-bg{{ end }}"
   {{ if $enableBg }}
@@ -36,7 +36,7 @@
   {{ if and $enableBg $overlayColor }}
   <div class="popular-posts-card-overlay" style="background: {{ $overlayColor }};"></div>
   {{ end }}
-  
+
   <div class="popular-posts-card-content"
     {{ if and $enableBg $textColor }}
     style="
@@ -51,14 +51,13 @@
     <div class="popular-posts">
       {{ $popularPosts := where .Site.RegularPages "Type" "posts" }}
       {{ $popularCount := .Site.Params.aside.popularCount | default 5 }}
-      
+
       {{ range first $popularCount $popularPosts.ByDate.Reverse }}
         <a class="popular-item" href="{{ .RelPermalink }}">
-          {{ $defaultCover := $.Site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
           {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-          {{ $cover := .Params.cover | default $defaultCover }}
+          {{ $cover := partial "func/get-cover.html" . }}
           <div class="popular-thumb">
-            <img src="{{ $cover | relURL }}" 
+            <img src="{{ $cover }}"
                  alt="{{ .Title }}"
                  onerror="this.onerror=null; this.src='{{ $fallbackImage | relURL }}'">
           </div>
@@ -76,5 +75,5 @@
   </div>
 </section>
 
- 
+
 {{ end }}

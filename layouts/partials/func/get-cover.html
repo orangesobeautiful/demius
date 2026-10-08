@@ -1,0 +1,26 @@
+{{/*
+  解析文章封面圖片路徑，回傳絕對路徑（例如 /posts/test/cover.png）。
+  - 若封面已是絕對路徑（/...）或外部網址，直接回傳
+  - 否則嘗試從 page bundle 資源取得 .RelPermalink
+  - 最後兜底：視為相對於文章頁面的路徑
+  用法：{{ partial "func/get-cover.html" . }}
+*/}}
+
+{{ $defaultCover := site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
+{{ $cover := .Params.cover | default "" }}
+{{ $result := $defaultCover }}
+
+{{ with $cover }}
+  {{ $coverValue := . }}
+  {{ if or (hasPrefix $coverValue "/") (hasPrefix $coverValue "http") }}
+    {{ $result = $coverValue }}
+  {{ else }}
+    {{ with $.Resources.GetMatch $coverValue }}
+      {{ $result = .RelPermalink }}
+    {{ else }}
+      {{ $result = printf "%s%s" $.RelPermalink $coverValue }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ return $result }}

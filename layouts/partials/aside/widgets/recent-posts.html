@@ -30,7 +30,7 @@
   {{ if and $enableBg $overlayColor }}
   <div class="recent-posts-card-overlay" style="background: {{ $overlayColor }};"></div>
   {{ end }}
-  
+
   <div class="recent-posts-card-content"
     {{ if and $enableBg $textColor }}
     style="
@@ -42,13 +42,12 @@
     <h3 class="aside-title"><i class="fas fa-clock"></i> 最新文章</h3>
     <div class="aside-recent">
         {{ range first 5 (where .Site.RegularPages "Type" "posts") }}
-            {{ $defaultCover := $.Site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
             {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-            {{ $cover := .Params.cover | default $defaultCover }}
+            {{ $cover := partial "func/get-cover.html" . }}
             <a class="recent-item" href="{{ .RelPermalink }}">
                 <div class="recent-thumb">
-                    <img src="{{ $cover | relURL }}" 
-                         alt="{{ .Title }}" 
+                    <img src="{{ $cover }}"
+                         alt="{{ .Title }}"
                          loading="lazy"
                          onerror="this.onerror=null; this.src='{{ $fallbackImage | relURL }}'">
                 </div>

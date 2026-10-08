@@ -1,14 +1,14 @@
 <article class="post-card{{ if .Params.pinned }} post-card-pinned{{ end }}">
   {{ $defaultCover := site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
-  {{ $cover := .Params.cover | default $defaultCover }}
-  
+  {{ $cover := partial "func/get-cover.html" . }}
+
   {{ if .Params.pinned }}
   <div class="post-pinned-badge">
     <i class="fas fa-thumbtack"></i>
     <span>置顶</span>
   </div>
   {{ end }}
-  
+
   {{/* 全文加密检测：如果设置了password参数 */}}
   {{ if .Params.password }}
   <div class="post-encryption-badge post-encryption-full">
@@ -35,9 +35,9 @@
   </div>
     {{ end }}
   {{ end }}
-  
+
   <div class="post-cover">
-    <img src="{{ $cover | relURL }}" alt="{{ .Title }}" loading="lazy" onerror="this.src='{{ $defaultCover }}'">
+    <img src="{{ $cover }}" alt="{{ .Title }}" loading="lazy" onerror="this.src='{{ $defaultCover | relURL }}'">
   </div>
   <div class="post-info">
     <h2 class="post-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>

@@ -2,7 +2,7 @@
 {{ if and (.Site.Params.aside.showRelatedPosts | default true) (eq .Kind "page") (eq .Type "posts") }}
   {{ $relatedCount := .Site.Params.aside.relatedCount | default 5 }}
   {{ $related := .Site.RegularPages.Related . | first $relatedCount }}
-  
+
   {{ $relatedConfig := index .Site.Params.aside "related-Posts" }}
   {{ $enableBg := $relatedConfig.enableBackground | default false }}
   {{ $bgImage := $relatedConfig.backgroundImage }}
@@ -14,7 +14,7 @@
   {{ $textShadow := $relatedConfig.textShadow | default false }}
   {{ $overlayColor := $relatedConfig.overlayColor }}
   {{ $borderRadius := $relatedConfig.borderRadius }}
-  
+
   <section class="aside-card related-posts-card{{ if $enableBg }} related-posts-card-with-bg{{ end }}"
     {{ if $enableBg }}
     {{ $styleStr := "" }}
@@ -35,7 +35,7 @@
     {{ if and $enableBg $overlayColor }}
     <div class="related-posts-card-overlay" style="background: {{ $overlayColor }};"></div>
     {{ end }}
-    
+
     <div class="related-posts-card-content"
       {{ if and $enableBg $textColor }}
       style="
@@ -48,13 +48,12 @@
       <div class="related-posts">
       {{ if $related }}
         {{ range $related }}
-          {{ $defaultCover := $.Site.Params.images.defaultCover | default "/img/default-cover.jpg" }}
           {{ $fallbackImage := $.Site.Params.images.fallbackImage | default "/img/404.jpg" }}
-          {{ $cover := .Params.cover | default $defaultCover }}
+          {{ $cover := partial "func/get-cover.html" . }}
           <a class="related-item" href="{{ .RelPermalink }}">
             <div class="related-thumb">
-              <img src="{{ $cover | relURL }}" 
-                   alt="{{ .Title }}" 
+              <img src="{{ $cover }}"
+                   alt="{{ .Title }}"
                    loading="lazy"
                    onerror="this.onerror=null; this.src='{{ $fallbackImage | relURL }}'">
             </div>

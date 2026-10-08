@@ -22,7 +22,7 @@
               <li class="archive-post-item{{ if not $hasCover }} no-thumb{{ end }}">
                 <time class="date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01-02" }}</time>
                 {{ with .Params.cover }}
-                  <span class="thumb"><img src="{{ . | relURL }}" alt="thumb" loading="lazy" onerror="this.closest('li').classList.add('no-thumb'); this.parentElement.remove();" /></span>
+                  <span class="thumb"><img src="{{ partial "func/get-cover.html" $ }}" alt="thumb" loading="lazy" onerror="this.closest('li').classList.add('no-thumb'); this.parentElement.remove();" /></span>
                 {{ end }}
                 <a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a>
               </li>
@@ -34,4 +34,3 @@
   {{ end }}
 </section>
 {{ end }}
-
